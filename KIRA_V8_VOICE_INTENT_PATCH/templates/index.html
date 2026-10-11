@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <title>KIRA V8 · Local Intelligence</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="ambient ambient-blue"></div>
+  <div class="ambient ambient-gold"></div>
+  <div class="grain"></div>
+
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span></span><i></i></div>
+        <div>
+          <div class="brand-name">KIRA<span>.</span></div>
+          <div class="brand-caption">LOCAL INTELLIGENCE</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section-label">ESTADO DEL SISTEMA</div>
+      <section class="system-card">
+        <div class="system-card-top">
+          <span class="live-dot" id="live-dot"></span>
+          <span id="system-state">Inicializando</span>
+          <span class="pill-version">V8</span>
+        </div>
+        <div class="system-model" id="sidebar-model">{{ model }}</div>
+        <div class="system-divider"></div>
+        <div class="metric-row"><span>Herramientas</span><strong id="tool-count">—</strong></div>
+        <div class="metric-row"><span>Aprobaciones</span><strong id="approval-count">0</strong></div>
+        <div class="metric-row"><span>Permisos admin</span><strong id="admin-state">Comprobando</strong></div>
+      </section>
+
+      <div class="sidebar-section-label shortcut-label">ATAJOS RÁPIDOS</div>
+      <div class="shortcut-list">
+        <button class="shortcut" data-prompt="Analizá el estado de KIRA y decime qué componentes están disponibles." type="button">
+          <span class="shortcut-icon icon-blue">◈</span><span><b>Diagnóstico</b><small>Revisar el sistema</small></span><span class="shortcut-arrow">↗</span>
+        </button>
+        <button class="shortcut" data-prompt="Buscá los archivos Python de mi proyecto actual y resumí su estructura. No modifiques nada." type="button">
+          <span class="shortcut-icon icon-gold">⌘</span><span><b>Explorar código</b><small>Mapa del proyecto</small></span><span class="shortcut-arrow">↗</span>
+        </button>
+        <button class="shortcut" data-prompt="Ayudame a planificar una tarea compleja en pasos verificables, sin ejecutar acciones todavía." type="button">
+          <span class="shortcut-icon icon-violet">✳</span><span><b>Planificar tarea</b><small>Crear un plan</small></span><span class="shortcut-arrow">↗</span>
+        </button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="privacy-mark"><span>◉</span><div><b>Entorno local</b><small>Interfaz en esta PC</small></div></div>
+        <div class="sidebar-foot">KIRA V8 <span>•</span> BUILD LOCAL</div>
+      </div>
+    </aside>
+
+    <section class="main-panel">
+      <header class="topbar">
+        <div class="page-title-wrap">
+          <div class="eyebrow"><span class="eyebrow-line"></span> TU ASISTENTE PERSONAL</div>
+          <h1>¿Qué hacemos <em>hoy</em>?</h1>
+          <p class="topbar-subtitle">Pensá en voz alta. KIRA te ayuda a convertir ideas en acciones.</p>
+        </div>
+        <div class="topbar-status">
+          <div class="connection-chip"><span class="live-dot small" id="header-live-dot"></span><span id="status-text">Conectando con el motor local…</span></div>
+          <div class="local-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> PRIVADO POR DISEÑO</div>
+        </div>
+      </header>
+
+      <section id="approvals" class="approvals" aria-live="polite"></section>
+
+      <section class="conversation-panel">
+        <div class="conversation-topline">
+          <div class="conversation-heading"><span class="heading-orb"></span><div><b>Conversación</b><small>Contexto persistente de KIRA</small></div></div>
+          <div class="conversation-tools"><span class="secure-label"><span>⌁</span> SESIÓN LOCAL</span><button id="scroll-latest" class="icon-button" type="button" title="Ir al último mensaje" aria-label="Ir al último mensaje">↓</button></div>
+        </div>
+        <div id="chat" class="chat" role="log" aria-live="polite" aria-relevant="additions text">
+          <div id="welcome" class="welcome">
+            <div class="welcome-orb-wrap"><div class="welcome-orb"><span class="orb-core"></span><span class="orb-ring ring-one"></span><span class="orb-ring ring-two"></span><span class="orb-cross cross-one"></span><span class="orb-cross cross-two"></span></div></div>
+            <div class="welcome-kicker">LISTA PARA AYUDARTE</div>
+            <h2>Hola, ¿en qué <em>estás pensando</em>?</h2>
+            <p>Puedo ayudarte con archivos, código, automatización y tareas de tu PC. Decime el objetivo con tus palabras.</p>
+            <div class="suggestion-grid">
+              <button class="suggestion" type="button" data-prompt="Revisá el estado de KIRA y comprobá si el modelo local responde."><span class="suggestion-icon blue">⌁</span><span><b>Revisar KIRA</b><small>Estado y conectividad</small></span><span class="suggestion-go">↗</span></button>
+              <button class="suggestion" type="button" data-prompt="Ayudame a crear un script de Python para una tarea que te voy a describir."><span class="suggestion-icon gold">{ }</span><span><b>Crear código</b><small>Python y proyectos</small></span><span class="suggestion-go">↗</span></button>
+              <button class="suggestion" type="button" data-prompt="Mostrame cómo puedo automatizar una tarea repetitiva en Windows."><span class="suggestion-icon violet">✳</span><span><b>Automatizar</b><small>Menos tareas manuales</small></span><span class="suggestion-go">↗</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div id="thinking" class="thinking" hidden>
+          <div class="thinking-mark"><span></span><span></span><span></span></div>
+          <div><b>KIRA está trabajando</b><small id="thinking-text">Analizando tu solicitud…</small></div>
+          <div class="thinking-sweep"></div>
+        </div>
+
+        <form id="form" class="composer">
+          <div class="composer-accent"></div>
+          <div class="composer-meta"><span class="compose-label"><span class="sparkle">✦</span> MENSAJE PARA KIRA</span><span class="keyboard-hint"><kbd>Enter</kbd> enviar · <kbd>Shift + Enter</kbd> nueva línea</span></div>
+          <div class="composer-input-row">
+            <textarea id="input" rows="1" placeholder="Escribí una orden, una idea o una pregunta…" aria-label="Mensaje para KIRA"></textarea>
+            <div class="composer-actions">
+              <button type="button" id="mic" class="action-button mic-button" aria-label="Grabar mensaje de voz" title="Grabar voz durante 5 segundos"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/></svg></button>
+              <button type="submit" id="send" class="send-button"><span class="send-button-glint"></span><span class="send-label">Enviar</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 4 16 8-16 8 2-8-2-8Z"/><path d="M6 12h14"/></svg></button>
+            </div>
+          </div>
+          <div class="composer-footer"><span class="composer-note"><span class="tiny-shield">◇</span> Revisá las acciones importantes antes de confirmarlas.</span><span id="char-count">0 caracteres</span></div>
+        </form>
+      </section>
+      <footer class="main-footer"><span>Diseñado para trabajar en tu PC.</span><span><i></i> KIRA V8 · LOCAL</span></footer>
+    </section>
+  </main>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

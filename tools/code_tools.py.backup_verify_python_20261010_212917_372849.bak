@@ -1,0 +1,48 @@
+from __future__ import annotations
+import py_compile
+import subprocess
+import sys
+from pathlib import Path
+
+import config
+from tools.registry import register
+
+
+def verify_python(path, run=False, args=None, timeout=None):
+    target = Path(str(path)).expanduser().resolve()
+    if not target.is_file() or target.suffix.lower() != '.py':
+        raise ValueError(f'No es un archivo Python: {target}')
+    try:
+        py_compile.compile(str(target), doraise=True)
+    except py_compile.PyCompileError as e:
+        return {'path':str(target),'syntax_ok':False,'error':str(e)}
+    result={'path':str(target),'syntax_ok':True}
+    if run:
+        cmd=[sys.executable,str(target)] + [str(x) for x in (args or [])]
+        p=subprocess.run(cmd,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=timeout or config.COMMAND_TIMEOUT,cwd=str(target.parent))
+        result.update({'run':True,'returncode':p.returncode,'stdout':p.stdout[-config.MAX_COMMAND_OUTPUT:],'stderr':p.stderr[-config.MAX_COMMAND_OUTPUT:]})
+        result['success']=p.returncode==0
+    return result
+
+
+def verify_project(path, run_tests=True):
+    root=Path(str(path)).expanduser().resolve()
+    if not root.is_dir(): raise ValueError(f'No existe la carpeta: {root}')
+    files=list(root.rglob('*.py'))[:2000]
+    errors=[]
+    for f in files:
+        try: py_compile.compile(str(f),doraise=True)
+        except py_compile.PyCompileError as e: errors.append({'path':str(f),'error':str(e)})
+    result={'path':str(root),'python_files':len(files),'syntax_errors':errors,'syntax_ok':not errors}
+    if run_tests and not errors:
+        test_dirs=[root/'tests',root/'test']
+        if any(d.exists() for d in test_dirs):
+            try:
+                p=subprocess.run([sys.executable,'-m','pytest','-q'],cwd=str(root),capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=config.COMMAND_TIMEOUT)
+                result.update({'tests_run':True,'tests_returncode':p.returncode,'tests_stdout':p.stdout[-12000:],'tests_stderr':p.stderr[-12000:],'tests_ok':p.returncode==0})
+            except Exception as e: result.update({'tests_run':False,'tests_error':str(e)})
+        else: result['tests_run']=False
+    return result
+
+register('verify_python','Comprueba sintaxis Python y opcionalmente ejecuta el script.',verify_python,{'path':'string','run':'boolean opcional','args':'array opcional','timeout':'number opcional'})
+register('verify_project','Compila todos los Python de un proyecto y ejecuta pytest si hay tests.',verify_project,{'path':'string','run_tests':'boolean opcional'})

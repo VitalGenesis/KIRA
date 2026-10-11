@@ -1,0 +1,2 @@
+{"created": "2026-10-10T23:59:17.007679+00:00", "status": "rejected", "goal": "Necesito que te automejores, necesito que seas capaz de ver lo que tengo abierto en tiempo real.", "error": "JSONDecodeError: Extra data: line 2 column 5 (char 33)", "approval_required": false}
+{"created": "2026-10-11T00:49:13.385471+00:00", "status": "rejected", "goal": "Que mejora podria realizarse en tu codigo?", "error": "JSONDecodeError: Extra data: line 2 column 5 (char 33)", "approval_required": false}

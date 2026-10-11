@@ -1,0 +1,15 @@
+﻿<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KIRA V8</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"></head>
+<body>
+<main class="shell">
+<header class="header"><div><h1>KIRA</h1><div class="muted">Agente local Â· {{ model }}</div></div><div class="badge">V8 Â· LOCAL</div></header>
+<section class="status"><div>Acceso: <span>{{ workspace }}</span></div><div id="status-text">Cargando...</div></section>
+<section id="approvals" class="approvals"></section>
+<section id="chat" class="chat"></section>
+<form id="form" class="composer"><textarea id="input" rows="2" placeholder="EscribÃ­ una orden para KIRA..."></textarea><button type="button" id="mic">ðŸŽ™</button><button id="send" type="submit">Enviar</button></form>
+</main>
+<script src="{{ url_for('static',filename='app.js') }}"></script>
+</body></html>
+
+
